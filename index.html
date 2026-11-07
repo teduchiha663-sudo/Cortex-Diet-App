@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f5ef" />
+    <meta name="description" content="A personal meal planner that scores meals against your own nutrition goals." />
+    <title>Good Measure | Personal meal planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-frame">
+      <header class="topbar">
+        <a class="brand" href="#overview" aria-label="Good Measure home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M25.8 5.7C17.9 5.5 9.1 7 6.1 13.1c-2.1 4.3.8 9.4 5.6 9.4 6.8 0 10.1-9 14.1-16.8Z" fill="currentColor"/><path d="M6.3 27c3.4-5.3 8-9.1 14.3-12.4" stroke="#F4F5EF" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </span>
+          <span class="brand-name">good measure<span class="brand-period">.</span></span>
+        </a>
+        <nav class="topnav" aria-label="Main navigation" role="tablist">
+          <button class="nav-link active" id="overview-tab" type="button" role="tab" data-tab-target="overview" aria-selected="true">Overview</button>
+          <button class="nav-link" id="library-tab" type="button" role="tab" data-tab-target="library" aria-selected="false">Food library</button>
+          <button class="nav-link" id="profile-tab" type="button" role="tab" data-tab-target="profile" aria-selected="false">My profile</button>
+        </nav>
+        <div class="privacy-pill"><span class="privacy-dot"></span>Saved on this device</div>
+      </header>
+
+      <main>
+        <section class="view-panel active" id="overview-view" data-view="overview" role="tabpanel" aria-labelledby="overview-tab">
+        <section class="intro-row" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow"><span id="today-label">YOUR DAILY CHECK-IN</span><span class="eyebrow-rule"></span></p>
+            <h1 id="page-title">Eat well, <em>your way.</em></h1>
+            <p class="intro-copy">A little perspective for whatever you're working toward.</p>
+          </div>
+          <div class="day-count"><span class="day-count-number" id="meal-count">0</span><span class="day-count-label">meals<br />logged today</span></div>
+        </section>
+
+        <section class="goal-strip" id="your-goals" aria-labelledby="goal-title">
+          <div class="goal-intro">
+            <span class="goal-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>
+            </span>
+            <div><h2 id="goal-title">Today, I'm focused on</h2><p id="goal-caption">Your grades shift with your focus.</p></div>
+          </div>
+          <div class="goal-options" role="group" aria-label="Choose your nutrition focus">
+            <button type="button" class="goal-option" data-goal="muscle" aria-pressed="false">Build muscle</button>
+            <button type="button" class="goal-option" data-goal="weight" aria-pressed="false">Lose weight</button>
+            <button type="button" class="goal-option" data-goal="gain" aria-pressed="false">Gain weight</button>
+            <button type="button" class="goal-option" data-goal="balance" aria-pressed="true">Feel balanced</button>
+          </div>
+        </section>
+
+        <div class="dashboard-grid">
+          <div class="main-column">
+            <section class="meal-check section-block" aria-labelledby="meal-check-title">
+              <div class="section-heading">
+                <div><p class="eyebrow">A QUICK CHECK</p><h2 id="meal-check-title">What's on your plate?</h2></div>
+                <span class="heading-spark" aria-hidden="true">✳</span>
+              </div>
+              <form id="meal-form" class="meal-form">
+                <div class="form-row">
+                  <label class="field field-name"><span>Meal or food</span><input id="meal-name" type="text" maxlength="80" placeholder="e.g. pepperoni pizza" autocomplete="off" required /></label>
+                  <label class="field field-food"><span>Quick pick (optional)</span>
+                    <select id="meal-base" aria-label="Choose the closest meal match">
+                      <option value="yogurt">Greek yogurt bowl</option>
+                      <option value="quinoa">Chicken &amp; quinoa</option>
+                      <option value="lentil">Lentil soup</option>
+                      <option value="salmon">Salmon plate</option>
+                      <option value="toast">Avocado toast</option>
+                      <option value="smoothie">Protein smoothie</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="form-bottom">
+                  <div class="serving-control">
+                    <span class="field-label" id="portion-unit">Portions</span>
+                    <div class="stepper" aria-label="Portion count">
+                      <button type="button" id="portion-down" aria-label="Decrease portions">−</button>
+                      <output id="portion-count" for="portion-down portion-up">1</output>
+                      <button type="button" id="portion-up" aria-label="Increase portions">+</button>
+                    </div>
+                  </div>
+                  <p class="form-hint">Typed meals are matched to USDA foods before they’re scored.</p>
+                  <button class="button button-primary" type="submit"><span>Add or find match</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg></button>
+                </div>
+              </form>
+              <div class="meal-match-area" id="meal-match-area" hidden>
+                <p id="meal-match-status" role="status"></p>
+                <div id="meal-match-results" class="meal-match-results"></div>
+                <div class="manual-meal-entry" id="manual-meal-entry" hidden>
+                  <p>USDA couldn’t find a match. Enter values from the label for one serving, or try a more specific name.</p>
+                  <div class="manual-nutrition-grid">
+                    <label class="field"><span>Calories (kcal)</span><input id="manual-calories" type="number" min="0" max="3000" step="1" placeholder="280" /></label>
+                    <label class="field"><span>Protein (g)</span><input id="manual-protein" type="number" min="0" max="300" step="0.1" placeholder="12" /></label>
+                    <label class="field"><span>Carbs (g)</span><input id="manual-carbs" type="number" min="0" max="500" step="0.1" placeholder="35" /></label>
+                    <label class="field"><span>Fat (g)</span><input id="manual-fat" type="number" min="0" max="300" step="0.1" placeholder="10" /></label>
+                    <label class="field"><span>Fiber (g)</span><input id="manual-fiber" type="number" min="0" max="100" step="0.1" placeholder="3" /></label>
+                    <label class="field"><span>Sugars (g)</span><input id="manual-sugar" type="number" min="0" max="300" step="0.1" placeholder="5" /></label>
+                    <label class="field"><span>Sodium (mg)</span><input id="manual-sodium" type="number" min="0" max="10000" step="1" placeholder="450" /></label>
+                  </div>
+                  <button class="button button-secondary" id="save-manual-meal" type="button">Save these nutrition values</button>
+                </div>
+              </div>
+              <div class="quick-picks" aria-label="Popular meals">
+                <span>TRY</span>
+                <button type="button" data-pick="yogurt">Yogurt bowl</button>
+                <button type="button" data-pick="quinoa">Chicken quinoa</button>
+                <button type="button" data-pick="lentil">Lentil soup</button>
+              </div>
+            </section>
+
+            <section class="score-panel" aria-live="polite" aria-labelledby="score-title">
+              <div class="score-copy">
+                <p class="eyebrow">PERSONAL MEAL FIT</p>
+                <h2 id="score-title">A useful signal,<br /><em>not a rulebook.</em></h2>
+                <p class="score-description" id="score-summary">A meal score will appear here as you explore your options.</p>
+              </div>
+              <div class="score-gauge" id="score-gauge" aria-label="Meal score preview">
+                <span class="score-letter" id="preview-grade">B</span>
+                <span class="score-number"><strong id="preview-score">82</strong><small>/ 100</small></span>
+                <span class="score-label">FIT SCORE</span>
+              </div>
+              <ul class="score-ratings" id="score-ratings" aria-label="Nutrition factor ratings"></ul>
+              <ul class="score-reasons" id="score-reasons" aria-label="Score details"></ul>
+              <p class="score-note" id="score-note"></p>
+            </section>
+
+            <section class="meal-log section-block" id="meal-log" aria-labelledby="log-title">
+              <div class="section-heading log-heading">
+                <div><p class="eyebrow">YOUR DAY, SO FAR</p><h2 id="log-title">Meal log <span id="log-date"></span></h2></div>
+                <button class="text-button" id="clear-log" type="button" title="Clear all meals">Clear all</button>
+              </div>
+              <div id="meal-list" class="meal-list"></div>
+            </section>
+          </div>
+
+          <aside class="side-column" aria-label="Daily nutrition overview">
+            <section class="daily-panel section-block" aria-labelledby="daily-title">
+              <div class="section-heading compact-heading"><div><p class="eyebrow">A GENTLE GUIDE</p><h2 id="daily-title">Your day</h2></div><span class="today-mark">TODAY</span></div>
+              <p class="daily-intro">A snapshot against your personal targets.</p>
+              <div class="daily-metric">
+                <div class="metric-topline"><span>Energy</span><span><strong id="calories-eaten">0</strong><small> / <span id="calorie-target">2,000</span> kcal</small></span></div>
+                <div class="progress-track"><span class="progress-fill fill-coral" id="calorie-progress"></span></div>
+              </div>
+              <div class="daily-metric">
+                <div class="metric-topline"><span>Protein</span><span><strong id="protein-eaten">0</strong><small> / <span id="protein-target">100</span> g</small></span></div>
+                <div class="progress-track"><span class="progress-fill fill-green" id="protein-progress"></span></div>
+              </div>
+              <div class="daily-metric">
+                <div class="metric-topline"><span>Fiber</span><span><strong id="fiber-eaten">0</strong><small> / 25 g</small></span></div>
+                <div class="progress-track"><span class="progress-fill fill-yellow" id="fiber-progress"></span></div>
+              </div>
+              <details class="target-settings">
+                <summary>Edit daily targets</summary>
+                <div class="target-fields">
+                  <label class="field"><span>Energy (kcal)</span><input id="target-calories-input" type="number" min="800" max="6000" step="50" /></label>
+                  <label class="field"><span>Protein (g)</span><input id="target-protein-input" type="number" min="20" max="400" step="5" /></label>
+                  <button class="button button-secondary" id="save-targets" type="button">Save targets</button>
+                </div>
+              </details>
+              <p class="targets-note">Targets are starting points, not prescriptions.</p>
+            </section>
+
+            <section class="inspiration-panel" aria-label="Meal inspiration">
+              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85" alt="A colorful bowl with greens, grains, and vegetables" loading="lazy" />
+              <div class="inspiration-overlay"><span>ONE PLATE, MANY COLORS</span><p>Variety can be<br />its own kind of balance.</p></div>
+              <span class="photo-credit">A little inspiration</span>
+            </section>
+
+            <div class="privacy-note"><span class="privacy-lock" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><rect x="4.5" y="8.5" width="11" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 8.5V6a3 3 0 0 1 6 0v2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><p><strong>Your information stays here.</strong><br />This demo saves your profile and meals only in this browser.</p></div>
+          </aside>
+        </div>
+          <footer class="page-footer">Good Measure is a planning demo, not medical advice. Meal estimates are approximate and depend on ingredients and portions.<span>Made by NX Limited</span></footer>
+        </section>
+
+        <section class="view-panel secondary-view" id="library-view" data-view="library" role="tabpanel" hidden aria-labelledby="library-tab">
+          <div class="view-header">
+            <p class="eyebrow">FOODDATA CENTRAL · USDA</p>
+            <h1 id="library-title">Find your <em>ingredients.</em></h1>
+            <p>Search hundreds of thousands of foods and drinks with nutrient data from the USDA.</p>
+          </div>
+          <form id="food-search-form" class="library-search">
+            <label class="field library-query"><span>Food, brand, or drink</span><input id="food-query" type="search" maxlength="80" placeholder="Try: oats, tofu, orange juice" autocomplete="off" required /></label>
+            <label class="field library-type"><span>Food source</span><select id="food-data-type"><option value="">All sources</option><option value="Foundation">Foundation Foods</option><option value="SR Legacy">SR Legacy</option><option value="Survey (FNDDS)">Survey foods</option><option value="Branded">Packaged brands</option></select></label>
+            <button class="button button-primary" type="submit" id="food-search-button">Search foods <span aria-hidden="true">⌕</span></button>
+          </form>
+          <details class="api-key-settings">
+            <summary>Search limit reached? Use your own USDA key</summary>
+            <div class="api-key-row"><label class="field"><span>FoodData Central API key</span><input id="usda-api-key" type="password" autocomplete="off" placeholder="Paste your USDA key" /></label><button class="button button-secondary" id="use-usda-key" type="button">Use key for this tab</button><a href="https://api.data.gov/signup/" target="_blank" rel="noreferrer">Request a key</a></div>
+            <p>The key stays in memory for this tab and is sent to USDA with each request; it is not saved with your profile. Use only a key you own. Production apps should make USDA requests through a backend.</p>
+          </details>
+          <div class="library-meta"><p id="food-search-status" role="status">Search USDA records by name. Queries are only sent when you press Search.</p><span>Per 100 g where available</span></div>
+          <div id="food-results" class="food-results" aria-live="polite"></div>
+          <div class="load-more-row"><button class="button button-secondary" id="load-more-foods" type="button" hidden>Load 12 more</button></div>
+          <div class="data-note">FoodData Central data is public domain. Nutrient values may be incomplete or vary by product and preparation. Source: U.S. Department of Agriculture, Agricultural Research Service, <a href="https://fdc.nal.usda.gov/" target="_blank" rel="noreferrer">FoodData Central</a>.</div>
+        </section>
+
+        <section class="view-panel secondary-view" id="profile-view" data-view="profile" role="tabpanel" hidden aria-labelledby="profile-tab">
+          <div class="view-header">
+            <p class="eyebrow">YOUR PRIVATE DASHBOARD</p>
+            <h1 id="profile-title">A little more <em>context.</em></h1>
+            <p>Optional fitness details help make your estimates more relevant. Your profile is saved in this browser.</p>
+          </div>
+          <form id="profile-form" class="profile-form">
+            <section class="profile-section" aria-labelledby="body-data-title">
+              <div class="profile-section-heading"><div><p class="eyebrow">01 · BODY BASICS</p><h2 id="body-data-title">A starting point</h2></div><span class="optional-label">All fields optional</span></div>
+              <div class="profile-fields profile-fields-four">
+                <label class="field"><span>Age (18+)</span><input id="profile-age" type="number" min="18" max="100" placeholder="e.g. 28" /></label>
+                <label class="field"><span>Height</span><div class="input-with-unit"><input id="profile-height" type="number" min="120" max="230" placeholder="170" /><span>cm</span></div></label>
+                <label class="field"><span>Weight</span><div class="input-with-unit"><input id="profile-weight" type="number" min="35" max="250" step="0.1" placeholder="70" /><span>kg</span></div></label>
+                <label class="field"><span>Sex for estimate</span><select id="profile-sex"><option value="unspecified">Prefer not to say</option><option value="female">Female</option><option value="male">Male</option></select></label>
+              </div>
+              <p class="field-footnote">Sex is used only by the optional energy-estimate formula. Leave it unspecified to see a broader range.</p>
+            </section>
+
+            <section class="profile-section" aria-labelledby="movement-title">
+              <div class="profile-section-heading"><div><p class="eyebrow">02 · MOVEMENT</p><h2 id="movement-title">Your usual week</h2></div></div>
+              <div class="profile-fields profile-fields-three">
+                <label class="field"><span>Day-to-day activity</span><select id="profile-activity"><option value="1.2">Mostly sitting</option><option value="1.375">Light movement</option><option value="1.55">Moderately active</option><option value="1.725">Very active</option></select></label>
+                <label class="field"><span>Training days per week</span><select id="profile-training"><option value="0">Not training right now</option><option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option><option value="4">4 days</option><option value="5">5 days</option><option value="6">6 days</option><option value="7">Every day</option></select></label>
+                <label class="field"><span>Meals per day</span><select id="profile-meals"><option value="2">2 meals</option><option value="3" selected>3 meals</option><option value="4">4 meals</option><option value="5">5 meals</option><option value="6">6 meals</option></select></label>
+              </div>
+            </section>
+
+            <section class="profile-section" aria-labelledby="preferences-title">
+              <div class="profile-section-heading"><div><p class="eyebrow">03 · PREFERENCES</p><h2 id="preferences-title">Food that fits you</h2></div></div>
+              <div class="profile-fields profile-fields-two">
+                <label class="field"><span>Eating style</span><select id="profile-diet"><option value="anything">No specific preference</option><option value="vegetarian">Vegetarian</option><option value="vegan">Vegan</option><option value="pescatarian">Pescatarian</option><option value="keto">Lower carbohydrate</option><option value="gluten-free">Gluten-free</option></select></label>
+                <label class="field"><span>Current fitness focus</span><select id="profile-goal"><option value="maintain">Maintain weight</option><option value="muscle">Build muscle</option><option value="lose">Lose weight</option><option value="gain">Gain weight</option><option value="performance">Improve performance</option></select></label>
+              </div>
+              <fieldset class="allergy-fieldset"><legend>Allergies or ingredients to avoid</legend><div class="allergy-options">
+                <label><input type="checkbox" name="allergy" value="milk" /> Milk</label><label><input type="checkbox" name="allergy" value="egg" /> Egg</label><label><input type="checkbox" name="allergy" value="peanut" /> Peanut</label><label><input type="checkbox" name="allergy" value="tree nuts" /> Tree nuts</label><label><input type="checkbox" name="allergy" value="soy" /> Soy</label><label><input type="checkbox" name="allergy" value="wheat" /> Wheat</label><label><input type="checkbox" name="allergy" value="fish" /> Fish</label><label><input type="checkbox" name="allergy" value="shellfish" /> Shellfish</label>
+              </div></fieldset>
+              <p class="field-footnote warning-note">Allergen information can be incomplete. Always check the product packaging. This tool cannot assess medical conditions or replace professional advice.</p>
+            </section>
+
+            <section class="profile-section estimate-section" aria-labelledby="estimate-title">
+              <div class="profile-section-heading"><div><p class="eyebrow">04 · ESTIMATE</p><h2 id="estimate-title">Your nutrition range</h2></div></div>
+              <div class="estimate-content"><p id="estimate-summary">Add age, height, and weight to see an optional daily energy estimate. Nothing is calculated until you save your profile.</p><div id="estimate-values" class="estimate-values" hidden></div></div>
+              <div class="profile-actions"><button class="button button-secondary" type="button" id="estimate-profile">Estimate from profile</button><button class="button button-secondary" type="button" id="apply-estimate" hidden>Use for today's guide</button><button class="button button-primary" type="submit" id="save-profile">Save profile</button><button class="text-button" type="button" id="clear-profile">Clear profile</button></div>
+            </section>
+          </form>
+        </section>
+      </main>
+    </div>
+    <button class="assistant-launch" id="assistant-launch" type="button" aria-label="Open AI assistant" aria-expanded="false" aria-controls="assistant-panel"><span class="assistant-blue-dot"></span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 18.5 3.8 21l4-.9a9 9 0 1 0-2.8-1.6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 12h.01M12 12h.01M16 12h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+    <aside class="assistant-panel" id="assistant-panel" aria-labelledby="assistant-title" hidden>
+      <header class="assistant-header"><div class="assistant-avatar" aria-hidden="true">✳</div><div><h2 id="assistant-title">Mira, your meal assistant</h2><p><span class="assistant-status-dot"></span><span id="assistant-status">Local demo · connect Gemini for AI</span></p></div><button class="assistant-close" id="assistant-close" type="button" aria-label="Close assistant">×</button></header>
+      <div class="assistant-connect" id="assistant-connect"><label class="field"><span>Gemini API key</span><input id="gemini-api-key" type="password" autocomplete="off" placeholder="Paste your key to connect" /></label><label class="field model-field"><span>Gemini model</span><input id="gemini-model" type="text" value="gemini-2.5-flash" autocomplete="off" /></label><div class="assistant-connect-row"><span>Key stays in memory for this tab only.</span><div><a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">Get a key</a><button type="button" id="connect-gemini" class="text-button">Connect</button></div></div><label class="share-consent"><input id="share-profile" type="checkbox" /><span>Include my saved profile in assistant messages. Profile data will be sent to Google when I chat.</span></label></div>
+      <div class="chat-messages" id="chat-messages" aria-live="polite"><div class="chat-message assistant-message">I can help you explore meal ideas and explain the estimates. I can't give medical advice.</div></div>
+      <div class="chat-suggestions"><button type="button" data-prompt="Suggest a high-fiber vegetarian lunch from the food library.">Vegetarian lunch</button><button type="button" data-prompt="Explain what the nutrition numbers in this app mean.">Explain my numbers</button></div>
+      <form class="assistant-form" id="assistant-form"><label class="sr-only" for="assistant-input">Message the assistant</label><input id="assistant-input" type="text" maxlength="500" placeholder="Ask about a meal..." autocomplete="off" required /><button type="submit" aria-label="Send message"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m3 10 14-7-4 14-3-6-7-1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m10 11 7-8" stroke="currentColor" stroke-width="1.5"/></svg></button></form>
+      <p class="assistant-disclaimer">AI can be wrong. For allergies, medical conditions, or treatment decisions, consult a qualified professional.</p>
+    </aside>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
